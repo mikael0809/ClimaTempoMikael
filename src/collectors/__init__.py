@@ -1,0 +1,1 @@
+"""Pacote collectors do ClimaAlerta."""

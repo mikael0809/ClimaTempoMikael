@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Teste: elementos ausentes</title></head>
+<body>
+  <!-- HTML de TESTE (dados fictícios) com elementos ausentes e valores inválidos.
+       Não possui a faixa #aviso-dados-ficticios nem o elemento #atualizado-em. -->
+  <section id="painel-cidades" data-status="carregado">
+    <article class="cartao-cidade" data-cidade-id="completa">
+      <h2 class="cidade-nome">Cidade Completa</h2><span class="cidade-uf">RS</span>
+      <p class="temperatura">21,0 °C</p><p class="umidade">Umidade: 60 %</p>
+      <p class="vento">Vento: 10 km/h (NO)</p><p class="condicao">Nublado</p>
+      <a class="link-detalhes" href="https://exemplo.test/detalhes/completa">Detalhes</a>
+    </article>
+    <article class="cartao-cidade" data-cidade-id="incompleta">
+      <h2 class="cidade-nome">Cidade Incompleta</h2>
+      <p class="temperatura">999 °C</p>
+      <p class="condicao">N/D</p>
+    </article>
+    <article class="cartao-cidade"></article>
+  </section>
+  <table id="tabela-previsao"><tbody>
+    <tr><td>22/10/2026</td><td>10,0 °C</td><td>20,0 °C</td><td>—</td></tr>
+    <tr><td>linha</td><td>quebrada</td></tr>
+  </tbody></table>
+</body></html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tempo Escolar — Página de demonstração (dados fictícios)</title>
+  <!--
+    PÁGINA DIDÁTICA DO PROJETO CLIMAALERTA
+    Todos os valores abaixo são FICTÍCIOS e servem apenas para praticar
+    Web Scraping com Selenium sem depender de sites externos.
+    O conteúdo é inserido por JavaScript após um pequeno atraso, para que o
+    aluno pratique esperas explícitas (WebDriverWait).
+  -->
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f2f6fa; color: #1f2d3d; }
+    #aviso-dados-ficticios { background: #ffd54f; padding: 12px 20px; font-weight: bold; text-align: center; }
+    header { background: #0b5394; color: #fff; padding: 18px 20px; }
+    main { padding: 20px; max-width: 1100px; margin: auto; }
+    #painel-cidades { display: flex; flex-wrap: wrap; gap: 16px; }
+    .cartao-cidade { background: #fff; border-radius: 10px; padding: 14px 18px; width: 230px;
+                     box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+    .cidade-nome { margin: 0; font-size: 1.2rem; display: inline; }
+    .cidade-uf { background: #0b5394; color: #fff; border-radius: 4px; padding: 1px 6px; margin-left: 6px; }
+    .temperatura { font-size: 2rem; margin: 10px 0 4px; }
+    table { border-collapse: collapse; margin-top: 24px; background: #fff; }
+    th, td { border: 1px solid #c8d3df; padding: 6px 12px; text-align: center; }
+    #carregando { font-style: italic; }
+  </style>
+</head>
+<body>
+  <div id="aviso-dados-ficticios">⚠ PÁGINA DE DEMONSTRAÇÃO — TODOS OS DADOS SÃO FICTÍCIOS</div>
+  <header>
+    <h1>Tempo Escolar</h1>
+    <p>Atualizado em <time id="atualizado-em" datetime="2026-10-21T14:00:00-03:00">21/10/2026 14:00</time></p>
+  </header>
+  <main>
+    <p id="carregando">Carregando dados…</p>
+    <section id="painel-cidades" data-status="carregando" aria-live="polite"></section>
+
+    <h2>Previsão fictícia para Sapiranga - RS</h2>
+    <table id="tabela-previsao">
+      <thead><tr><th>Data</th><th>Mínima</th><th>Máxima</th><th>Chuva</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script>
+    // Dados fictícios. Observe as variações propositais:
+    // - "Cidade Exemplo" não possui o elemento de umidade (elemento ausente);
+    // - "Vila Modelo" tem temperatura indisponível ("—").
+    const cidades = [
+      { id: "sapiranga-rs", nome: "Sapiranga", uf: "RS", temp: "24,5 °C", umid: "Umidade: 57 %",
+        vento: "Vento: 13,5 km/h (SE)", cond: "Parcialmente nublado" },
+      { id: "porto-alegre-rs", nome: "Porto Alegre", uf: "RS", temp: "26,1 °C", umid: "Umidade: 49 %",
+        vento: "Vento: 18,0 km/h (L)", cond: "Céu limpo" },
+      { id: "cidade-exemplo-sc", nome: "Cidade Exemplo", uf: "SC", temp: "19,8 °C", umid: null,
+        vento: "Vento: 7,2 km/h (S)", cond: "Chuva fraca" },
+      { id: "vila-modelo-pr", nome: "Vila Modelo", uf: "PR", temp: "—", umid: "Umidade: 88 %",
+        vento: "Vento: 4,0 km/h (N)", cond: "Nevoeiro" }
+    ];
+    const previsao = [
+      ["22/10/2026", "14,7 °C", "27,7 °C", "0,9 mm"],
+      ["23/10/2026", "17,5 °C", "29,6 °C", "0,8 mm"],
+      ["24/10/2026", "17,9 °C", "25,7 °C", "2,2 mm"],
+      ["25/10/2026", "14,4 °C", "19,2 °C", "25,2 mm"]
+    ];
+
+    function criarCartao(c) {
+      const art = document.createElement("article");
+      art.className = "cartao-cidade";
+      art.dataset.cidadeId = c.id;
+      art.dataset.atualizado = "2026-10-21T14:00:00-03:00";
+      art.innerHTML =
+        `<h2 class="cidade-nome">${c.nome}</h2><span class="cidade-uf">${c.uf}</span>` +
+        `<p class="temperatura">${c.temp}</p>` +
+        (c.umid ? `<p class="umidade">${c.umid}</p>` : "") +
+        `<p class="vento">${c.vento}</p>` +
+        `<p class="condicao">${c.cond}</p>` +
+        `<a class="link-detalhes" href="detalhes.html#${c.id}">Ver detalhes</a>`;
+      return art;
+    }
+
+    // Simula o carregamento assíncrono de uma página real (≈1 s).
+    setTimeout(() => {
+      const painel = document.getElementById("painel-cidades");
+      cidades.forEach(c => painel.appendChild(criarCartao(c)));
+      const corpo = document.querySelector("#tabela-previsao tbody");
+      previsao.forEach(linha => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = linha.map(v => `<td>${v}</td>`).join("");
+        corpo.appendChild(tr);
+      });
+      document.getElementById("carregando").remove();
+      painel.dataset.status = "carregado";   // marcador usado pelo WebDriverWait
+    }, 1000);
+  </script>
+</body>
+</html>

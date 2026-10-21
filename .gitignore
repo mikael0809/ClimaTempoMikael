@@ -1,0 +1,28 @@
+# Ambiente virtual e caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Configuração local (pode conter ajustes pessoais)
+.env
+
+# Dados gerados em tempo de execução
+data/*.db
+data/*.db-journal
+data/scraper_demo_resultado.csv
+logs/*.log*
+
+# Arquivos gerados pelo tutorial
+exemplos/tutorial/tutorial.db
+exemplos/tutorial/resumo_diario.csv
+
+# Sistema operacional / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

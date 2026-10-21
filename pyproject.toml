@@ -1,0 +1,46 @@
+[project]
+name = "climaalerta"
+version = "1.0.0"
+description = "ClimaAlerta — repositório da turma: implemente as funções guiado pelos testes e pela documentação."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.32",
+    "pandas>=2.2",
+    "streamlit>=1.45",
+    "plotly>=6.0",
+    "selenium>=4.25",
+    "SQLAlchemy>=2.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-cov>=5", "ruff>=0.6"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "exemplos/dashboard_python/tests", "exemplos/tutorial"]
+addopts = "-ra"
+markers = [
+    "selenium: testes que abrem o Chrome em modo headless",
+    "network: testes que acessam a internet (desativados por padrão)",
+]
+filterwarnings = ["ignore::DeprecationWarning:pyarrow.*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = [".venv", "documentacao"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+# F401 (import não usado) e F841 (variável não usada) ficam desligados enquanto
+# o esqueleto não estiver implementado: as importações já estão no lugar certo.
+# Quando terminar, remova-os desta lista e rode `ruff check .` novamente.
+ignore = ["E501", "B008", "F401", "F841"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["src/ui/*"]
